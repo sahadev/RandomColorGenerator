@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Random Color Generator</title>
+</head>
+
+<script src="./index.js"></script>
+
+<style>
+    .block {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        color: white;
+        line-height: 50px;
+    }
+
+    .color {
+        font-size: 10px;
+    }
+</style>
+
+<body>
+
+    <div id="container"></div>
+
+</body>
+
+<script>
+    const container = document.querySelector('#container');
+
+    let innerColorHtml = '';
+    let totolBlock = 300;
+
+    const pointer = generatorColor(false, Math.round(totolBlock / 6));
+    for (let index = 0; index < totolBlock; index++) {
+        const color = pointer.next().value;
+        innerColorHtml += `<div class="block" style="background-color: ${color}">${index + 1}</div>`
+    }
+
+    container.innerHTML = innerColorHtml;
+
+</script>
+
+</html>
