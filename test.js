@@ -1,4 +1,4 @@
-const { generatorColorTemplate } = require('./index');
+import { generatorColorTemplate, generatorColor, getColorTemplate } from './src/index';
 
 const result = generatorColorTemplate(['A', 'B', 'C', 'D', 'E']);
 

@@ -1,5 +1,4 @@
 // Random Color Generator
-
 // 颜色起始值
 let startPoint = 0, seek = 0; // 颜色增量
 
@@ -9,7 +8,7 @@ let colorTemplateArray = []; // 存放组合后的模板
 const colorBaseEle = ['XX', 'FF', '00']
 
 // 分治算法计算所有的颜色模板值
-function generatorColorTemplate(array) {
+export function generatorColorTemplate(array) {
     if (array.length === 1)
         return array;
 
@@ -44,8 +43,8 @@ colorTemplateArray = colorTemplateArray.concat(generatorColorTemplate(colorBaseE
 const p = getColorTemplate();
 
 // Generator Color
-function generatorColor(increase = false, templateStep = 255) { // 模板变换步长，默认255次返回变换一次模板。
-   
+export function generatorColor(increase = false, templateStep = 255) { // 模板变换步长，默认255次返回变换一次模板。
+
     seek = Math.round(255 / templateStep);
 
     // 返回一个随机的颜色，例如:##FCBADE
@@ -65,7 +64,6 @@ function generatorColor(increase = false, templateStep = 255) { // 模板变换�
         } else {
             while (true) {
                 const result = `#${randomHex()}${randomHex()}${randomHex()}`;
-                console.info(result);
                 yield result;
             }
         }
@@ -102,10 +100,4 @@ function generatorColor(increase = false, templateStep = 255) { // 模板变换�
     }
 
     return randomColor();
-}
-
-module.exports = {
-    generatorColor,
-    generatorColorTemplate,
-    getColorTemplate,
 }

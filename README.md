@@ -1,10 +1,57 @@
 # 随机/线性颜色生成器 RandomColorGenerator
 
+> NPM中已有一个同名的random-color-generator，简单看了下代码，原理很类似。于是我的名称为random-color-generator2
+
+<style>
+    .block {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        color: white;
+        line-height: 20px;
+    }
+</style>
+
+<div id="container">
+    <div class="block" style="background-color: #d35576">1</div>
+    <div class="block" style="background-color: #223691">2</div>
+    <div class="block" style="background-color: #a82df7">3</div
+    >
+</div>
+
+
+
+
 最近在实现[https://javascript30.com/](https://javascript30.com/)的课程，其中有一门课程要求利用Canvas实现一个效果，我发现这个效果其中的颜色是线性生成的。结合我之前已经写过一个随机颜色生成器，就想将这个随机颜色生成器写出来，作为一个工具使用，虽然实际应用场景不大，就当练练手了。
 
 本示例中使用了大量的Generator，在写的过程发现ES6所提供的Generator在这个场景中非常适用。可以参考学习。
 
-## 随机生成一个颜色
+## How to use
+```
+    npm install random-color-generator2
+```
+### For random color
+```javascript
+    const { generatorColor } from 'random-color-generator2'
+
+    const colorPointer = generatorColor(false);
+
+    // generate a random color
+    pointer.next().value;
+```
+
+### For linear color
+```javascript
+    const { generatorColor } from 'random-color-generator2'
+
+    const colorPointer = generatorColor(true);
+
+    // generate a random color
+    pointer.next().value;
+```
+
+## 示例-随机生成一个颜色
 ![](./assets/WX20200225-211546@2x.png)
 
 在浏览器中这么使用:
@@ -15,7 +62,7 @@ const color = pointer.next().value;
 ```
 我的示例中使用了300个颜色块，所以颜色呈现上图效果。
 
-## 返回线性递增颜色
+## 示例-返回线性递增颜色
 ![](./assets/WX20200225-211000@2x.png)
 
 在浏览器中这么使用:

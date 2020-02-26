@@ -1,16 +1,33 @@
 {
-  "name": "random-color-generator",
+  "name": "random-color-generator2",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Random color generator / Linear color generator",
+  "main": "libs/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js",
+    "build": "rollup src/index.js --file lib/bundle.js --format iife --name 'rcg2'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sahadev/RandomColorGenerator.git"
   },
   "keywords": [
     "random",
+    "linear",
     "color",
     "generator"
   ],
-  "author": "sahadev",
-  "license": "ISC"
+  "author": "shangbin <sahadev@foxmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.8.3",
+    "core-js": "^3.6.4",
+    "install": "^0.13.0",
+    "npm": "^6.14.0"
+  }
 }
