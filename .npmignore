@@ -7,3 +7,4 @@ yarn.lock
 babel.config.json
 .gitignore
 src/
+.DS_Store
