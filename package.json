@@ -1,6 +1,6 @@
 {
   "name": "random-color-generator2",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Random color generator / Linear color generator",
   "main": "lib/index.js",
   "scripts": {
