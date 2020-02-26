@@ -1,5 +1,10 @@
-import { generatorColorTemplate, generatorColor, getColorTemplate } from './src/index';
+const { generateColorTemplate, generateColor } = require('./lib/index.js');
 
-const result = generatorColorTemplate(['A', 'B', 'C', 'D', 'E']);
+const pointer = generateColor(true, 4);
 
-console.info(result.join(' '), result.length);
+const resultArray = [];
+for (let index = 0; index < 1000; index++) {
+    resultArray.push({ ID: `${index + 1}`, color: `${pointer.next().value}` });
+}
+
+console.table(resultArray);

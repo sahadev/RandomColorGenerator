@@ -3,3 +3,7 @@ assets
 index.html
 test.js
 node_modules
+yarn.lock
+babel.config.json
+.gitignore
+src/

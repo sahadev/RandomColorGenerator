@@ -1,58 +1,63 @@
-// Random Color Generator
-// 颜色起始值
-let startPoint = 0, seek = 0; // 颜色增量
-
-let colorTemplateArray = []; // 存放组合后的模板
-
-// 模板基本组合元素
-const colorBaseEle = ['XX', 'FF', '00']
+// Random / Linear Color Generator
 
 // 分治算法计算所有的颜色模板值
-export function generatorColorTemplate(array) {
+export function generateColorTemplate(array) {
+
+    // 出口
     if (array.length === 1)
         return array;
 
     const resultArray = [];
     for (let index = 0; index < array.length; index++) {
-        const element = array[index];
+        const firstEle = array[index];
 
         const shadow = array.slice();
-        shadow.splice(array.indexOf(element), 1)
-        const temp = generatorColorTemplate(shadow);
+        shadow.splice(array.indexOf(firstEle), 1);
+        const temp = generateColorTemplate(shadow);
 
+        // 组合
         for (let indexJ = 0; indexJ < temp.length; indexJ++) {
-            const element2 = temp[indexJ];
-            resultArray.push(`${element}${element2}`);
+            const secondEle = temp[indexJ];
+            resultArray.push(`${firstEle}${secondEle}`);
         }
-
     }
     return resultArray;
 }
 
-// 单次返回一个模板组合
-function* getColorTemplate() {
-    for (let index = 0; true; index++) {
-        yield colorTemplateArray[index % colorTemplateArray.length];
+/**
+ * Generator Color
+ * @param {*} increase 是否返回线性递增颜色
+ * @param {*} increaseStep 颜色递增值，默认每次颜色递增1
+ */
+export function generateColor(increase = false, increaseStep = 1) {
+    // 颜色起始值
+    let startPoint = 0;
+
+    // 模板基本组合元素
+    const colorBaseEle = ['XX', 'FF', '00'];
+
+    // colorTemplateArray存放实际计算颜色模板组合
+    const colorTemplateArray = generateColorTemplate(colorBaseEle);
+
+    // 单次返回一个模板组合
+    function* getColorTemplate() {
+        for (let index = 0; true; index++) {
+            yield colorTemplateArray[index % colorTemplateArray.length];
+        }
     }
-}
 
-// colorTemplateArray存放实际计算颜色模板组合
-colorTemplateArray = colorTemplateArray.concat(generatorColorTemplate(colorBaseEle));
+    // 获取颜色模板指针
+    const p = getColorTemplate();
 
-// 获取颜色模板指针
-const p = getColorTemplate();
+    // 颜色增量
+    let seek = increaseStep > 0 ? increaseStep : 1;
 
-// Generator Color
-export function generatorColor(increase = false, templateStep = 255) { // 模板变换步长，默认255次返回变换一次模板。
-
-    seek = Math.round(255 / templateStep);
-
-    // 返回一个随机的颜色，例如:##FCBADE
+    // 返回一个随机或线性的颜色，例如:##FCBADE
     function* randomColor() {
         if (increase) {
             let template;
-            for (let index = 0; true; index++) {
-                if (index % templateStep === 0) {
+            for (let index = 0; true; index += seek) {
+                if (index === 0 || index > 255) {
                     index = 0;
                     startPoint = 0;
                     template = p.next().value;

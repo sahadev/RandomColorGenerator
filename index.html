@@ -32,9 +32,9 @@
     const container = document.querySelector('#container');
 
     let innerColorHtml = '';
-    let totolBlock = 300;
+    let totolBlock = 1000;
 
-    const pointer = rcg2.generatorColor(false, Math.round(totolBlock / 6));
+    const pointer = rcg2.generateColor(true, 5);
     for (let index = 0; index < totolBlock; index++) {
         const color = pointer.next().value;
         innerColorHtml += `<div class="block" style="background-color: ${color}">${index + 1}</div>`
