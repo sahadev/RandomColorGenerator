@@ -1,7 +1,7 @@
 {
   "name": "random-color-generator2",
-  "version": "1.1.7",
-  "description": "Random color generator / Linear color generator",
+  "version": "1.2.0",
+  "description": "Random color generator / Linear color generator (Supports HSL Algorithm).",
   "main": "lib/index.js",
   "scripts": {
     "test": "node test.js",
@@ -16,7 +16,8 @@
     "random",
     "linear",
     "color",
-    "generator"
+    "generator",
+    "HSL"
   ],
   "author": "shangbin <sahadev@foxmail.com>",
   "license": "ISC"

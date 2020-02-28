@@ -32,12 +32,11 @@
     const container = document.querySelector('#container');
 
     let innerColorHtml = '';
-    let totolBlock = 1000;
+    let totolBlock = 180;
 
-    const pointer = rcg2.generateColor(true, 5);
+    const p = rcg2.generateLinearWithHSL(0, 2, { s: 100, l: 50 });
     for (let index = 0; index < totolBlock; index++) {
-        const color = pointer.next().value;
-        innerColorHtml += `<div class="block" style="background-color: ${color}">${index + 1}</div>`
+        innerColorHtml += `<div class="block" style="background-color: ${p.next().value}">${index + 1}</div>`
     }
 
     container.innerHTML = innerColorHtml;

@@ -5,6 +5,7 @@
 本示例中使用了大量的Generator，在写的过程发现ES6所提供的Generator在这个场景中非常适用。可以参考学习。
 
  > 代码量非常小，压缩后只有3.9kb，解压后也只有12kb。
+ 1.2.0 版本现已支持HSL算法，线性输出更平稳。
 
 ## 随机示例
 ![](./assets/random.png)
@@ -29,6 +30,29 @@
 |2	|'#04FF00'|
 |3	|'#06FF00'|
 |4	|'#08FF00'|
+
+### And (Use HSL algorithm. :) Be better! :))
+
+HSL算法为360个单位一周期。
+
+HSL采用单次递增1个单位的效果:
+![](./assets/HSL_Linear_compress.png)
+
+HSL采用单次递增2个单位的效果:
+![](./assets/HSL_compress.png)
+
+**文本示例:**
+
+|Index|	Color|
+|:-:|:-:|
+|    0    | '#ff0000' |
+|    1    | '#ff1100' |
+|    2    | '#ff2200' |
+|    3    | '#ff3300' |
+|    4    | '#ff4400' |
+
+HSL算法说明图:
+![](./assets/HSL.png)
 
 ## How to use
 ```
@@ -55,6 +79,18 @@
     const color = colorPointer.next().value;
 ```
 
+### For HSL
+```javascript
+    const { generateLinearWithHSL } = require('random-color-generator2');
+
+    // 注意参数, S/L分别代表饱和度/亮度，默认分别为100 50
+    const colorPointer = generateLinearWithHSL(0, 4, { s: 100, l: 50 });
+
+    // generate a linear color
+    const color = colorPointer.next().value;
+
+```
+
  > 可以无限调动，没有限制。
 
 ### For Chrome Runtime
@@ -70,6 +106,11 @@
     // 生成线性色, 步长为5
     const pointer = rcg2.generateColor(true, 5);
     const color = pointer.next().value;
+
+    // 或者 推荐
+    const colorPointer = rcg2.generateLinearWithHSL(0, 1, { s: 100, l: 50 });
+    // generate a linear color with HSL
+    const color = colorPointer.next().value;
 ```
 
  > 如有疑问，可以参见项目中的```index.html```示例文件。
@@ -81,6 +122,26 @@ generateColor方法有两个参数.
  - 参数2，类型为整型，表示线性输出情况下颜色的增量区间。例如这个值传入3，在第一个值为#00FF00的情况下，第二个值就为03FF00，以此类推。
 
 颜色模板的排列组合为: XXFF00 XX00FF FFXX00 FF00XX 00XXFF 00FFXX，目前从这6个中循环取模板，后期将支持自定义模板。
+
+### 方法参数说明
+```javascript
+/**
+ * Generator Color
+ * @param {*} increase 是否返回线性递增颜色
+ * @param {*} increaseStep 颜色递增值，默认每次颜色递增1
+ */
+function generateColor(increase = false, increaseStep = 1) {}
+
+/**
+ * 
+ * @param {*} offset Hue起始偏移量 在0 ~ 360之间
+ * @param {*} step 单次递增步长 在1 ~ 20之间
+ * @param {*} options 可选，指定Saturation与Luminosity的值。使用示例: { s: 0~100, l: 0~100}
+ * 
+ * 参考: https://en.wikipedia.org/wiki/HSL_and_HSV
+ */
+function generateLinearWithHSL(offset = 0, step = 1, options) {}
+```
 
 ## 分治算法求排列组合
 
@@ -149,3 +210,4 @@ TODOLIST:
  - 支持步长可配置. 支持单次递增变化值: 1 ~ 255
  - 支持颜色随机范围可配置. 例如支持100 ~ 150的颜色范围区间
  - 支持递减
+ - 优先使用HSL颜色递增算法，支持步长与起始偏移量

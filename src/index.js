@@ -24,6 +24,71 @@ export function generateColorTemplate(array) {
     return resultArray;
 }
 
+
+/**
+ * 
+ * @param {*} offset Hue起始偏移量 在0 ~ 360之间
+ * @param {*} step 单次递增步长 在1 ~ 20之间
+ * @param {*} options 可选，指定Saturation与Luminosity的值。使用示例: { s: 0~100, l: 0~100}
+ * 
+ * 参考: https://en.wikipedia.org/wiki/HSL_and_HSV
+ */
+export function generateLinearWithHSL(offset = 0, step = 1, options) {
+    let _hueOffset = offset > 0 ? offset : 0;// 默认从0开始
+    let _hueStep = step > 1 && step < 20 ? step : 1; // 默认单次递增1个单位
+
+    let _saturation = options && options.s < 100 && options.s > 0 ? options.s : 100;
+    let _luminosity = options && options.l < 100 && options.l > 0 ? options.l : 50;
+
+    function hslToRgb(h, s, l) {
+
+        h /= 360;
+        s /= 100;
+        l /= 100;
+
+        var r, g, b;
+
+        if (s == 0) {
+            r = g = b = l; // achromatic
+        } else {
+            var hue2rgb = function hue2rgb(p, q, t) {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                return p;
+            }
+
+            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            var p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
+        }
+
+        return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+    }
+
+    function convertHex(math) {
+        let preResult = math.toString(16);
+
+        if (math < 16) {
+            preResult = `0${preResult}`;
+        }
+
+        return preResult;
+    }
+
+    return (function* () {
+        for (; _hueOffset < 360; _hueOffset += _hueStep, _hueOffset >= 360 && (_hueOffset = 0)) {
+            const resultArray = hslToRgb(_hueOffset, _saturation, _luminosity);
+            const preResult = `#${convertHex(resultArray[0])}${convertHex(resultArray[1])}${convertHex(resultArray[2])}`;
+            yield preResult;
+        }
+    })()
+}
+
 /**
  * Generator Color
  * @param {*} increase 是否返回线性递增颜色
